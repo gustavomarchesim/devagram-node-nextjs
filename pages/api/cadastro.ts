@@ -16,7 +16,8 @@ import md5 from 'md5';
 const endpointCadastro = async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes> ) => {
     if(req.method === 'POST'){
         const usuario = req.body as cadastroRequisicao;
-
+        
+        // Faz a tratativa das informações dadas pelo usuário e verifica se são válidos.
         if(!usuario.nome || usuario.nome.length < 5) {
             return res.status(400).json({erro : 'Nome inválido!'});
         }
@@ -35,12 +36,14 @@ const endpointCadastro = async ( req : NextApiRequest, res : NextApiResponse<res
             res.status(400).json({erro : 'O email cadastrado ja existe!' });
         };
 
+        // Cria o usuário com a senha encriptada usando o modulo MD5
         const usuarioFinal = {
             nome : usuario.nome,
             email : usuario.email,
             senha : md5(usuario.senha)
         };
-        
+
+        // Função assincrona que cria o usuário e retorna mensagem de sucesso.
         await usuarioModel.create(usuarioFinal);
         return res.status(200).json({msg : 'Usuário cadastrado com sucesso!'});
     }
