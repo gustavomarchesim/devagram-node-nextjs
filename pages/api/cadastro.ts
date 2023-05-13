@@ -5,10 +5,18 @@ import { usuarioModel } from '../../models/usuarioModel';
 import { conectarMongoDB } from '../../middlewares/conectarMongoDB';
 import md5 from 'md5';
 
+/**
+ * Endpoint para cadastro de um usuário.
+ * 
+ * @param req - Objeto contendo a requisição HTTP recebida.
+ * @param res - Objeto que envia a resposta HTTP.
+ * @returns - Uma resposta em JSON contendo mensagem de sucesso se o usuário for cadastrado no banco de dados ou não.
+ */
+
 const endpointCadastro = async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes> ) => {
     if(req.method === 'POST'){
         const usuario = req.body as cadastroRequisicao;
-        //Faz a validação das informações passadas pelo usuário.
+
         if(!usuario.nome || usuario.nome.length < 5) {
             return res.status(400).json({erro : 'Nome inválido!'});
         }
@@ -21,12 +29,12 @@ const endpointCadastro = async ( req : NextApiRequest, res : NextApiResponse<res
             return res.status(400).json({erro : 'Senha inválido!'}); 
         }
 
-        //verifica se o email cadastrado já existe no banco de dados!
+        // Busca no banco de dados por emails criados em duplicidade
         const usuariosDuplicidadeEmail = await usuarioModel.find({email : usuario.email});
         if(usuariosDuplicidadeEmail && usuariosDuplicidadeEmail.length > 0){
             res.status(400).json({erro : 'O email cadastrado ja existe!' });
         };
-        //Salva informações no banco de dados
+
         const usuarioFinal = {
             nome : usuario.nome,
             email : usuario.email,

@@ -5,26 +5,18 @@ import { usuarioModel } from "../../models/usuarioModel";
 import md5 from 'md5';
 
 /**
- * This is a TypeScript function that handles a login endpoint, checking if the provided login and
- * password match a user in the database and returning an appropriate response.
+ * Endpoint para realizar o login de um usuário.
  * 
- * @param req The `req` parameter is an object that represents the incoming HTTP request in a Next.js
- * API route. It contains information about the request, such as the HTTP method, headers, query
- * parameters, and request body.
- * @param res The "res" parameter is an instance of the NextApiResponse class, which is used to send
- * the HTTP response back to the client. It is used to set the status code, headers, and body of the
- * response. In this case, it is of type "NextApiResponse<respostasPad
- * 
- * @return The endpointLogin function is returning a response to the client based on the HTTP method
- * used in the request and the validity of the login credentials provided in the request body. If the
- * method is POST and the login credentials are valid, a success message with the user's name is
- * returned with a status code of 200. If the login credentials are invalid, an error message is
- * returned with a status code of
+ * @param req - Objeto contendo a requisição HTTP recebida.
+ * @param res - Objeto para enviar a resposta HTTP.
+ * @returns Uma resposta JSON contendo uma mensagem de sucesso se o login for bem-sucedido,
+ *          ou uma mensagem de erro se o login falhar.
  */
+
 const endpointLogin = async ( req: NextApiRequest, res: NextApiResponse<respostasPadroes> ) => {
     if (req.method === 'POST'){
         const {login, senha} = req.body;
-
+        // Procura no banco de dados pelo email e senha fornecidos
         const usuarioEncontrado = await usuarioModel.find({email: login, senha : md5(senha)});
         if(usuarioEncontrado && usuarioEncontrado.length > 0) {
             const usuarioLogado = usuarioEncontrado[0];
