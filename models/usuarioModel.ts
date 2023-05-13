@@ -1,4 +1,4 @@
-import moongose, { Schema, Model } from 'mongoose';
+import moongose, { Schema } from 'mongoose';
 
 /**
  * Definição do esquema do documento para a coleção "usuarios" no MongoDB.
@@ -14,6 +14,7 @@ const usuarioSchema = new Schema({
     publicacoes : {type : Number, default : 0}
     
 });
+
 /**
  * Propriedades do Moongose para manipulação de informações no banco.
  * 
@@ -23,10 +24,4 @@ const usuarioSchema = new Schema({
  * @property {Function} delete - Método do modelo para excluir um usuário.
  */
 
-/**
- * Modelo do Mongoose para a coleção "usuarios" no MongoDB.
- * Caso o modelo já exista, utiliza o modelo existente. Caso contrário, cria um novo modelo.
- * @type {usuarioModel}
- */
-
-export const usuarioModel = (moongose.models.usuarios || moongose.model('usuario', usuarioSchema));
+export const usuarioModel = (moongose.models.usuario || moongose.model('usuario', usuarioSchema));
