@@ -15,13 +15,4 @@ const usuarioSchema = new Schema({
     
 });
 
-/**
- * Propriedades do Moongose para manipulação de informações no banco.
- * 
- * @property {Function} find - Método do modelo para buscar usuários.
- * @property {Function} create - Método do modelo para criar um novo usuário.
- * @property {Function} update - Método do modelo para atualizar um usuário existente.
- * @property {Function} delete - Método do modelo para excluir um usuário.
- */
-
 export const usuarioModel = (moongose.models.usuario || moongose.model('usuario', usuarioSchema));
