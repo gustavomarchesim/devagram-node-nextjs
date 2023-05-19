@@ -6,7 +6,6 @@ import { usuarioModel } from "../../models/usuarioModel";
 import md5 from 'md5';
 import jwt, { Secret } from 'jsonwebtoken';
 
-
 /**
  * Endpoint para realizar o login de um usuário.
  * 
@@ -26,22 +25,21 @@ const endpointLogin = async ( req: NextApiRequest, res: NextApiResponse<resposta
 
     if (req.method === 'POST'){
         const {login, senha} = req.body;
+
         // Procura no banco de dados pelo email e senha fornecidos
         const usuarioEncontrado = await usuarioModel.find({email: login, senha : md5(senha)});
         if(usuarioEncontrado && usuarioEncontrado.length > 0) {
             const usuarioLogado = usuarioEncontrado[0];
+
         // Gera um token JWT com o ID do usuário
             const token = jwt.sign({_id : usuarioLogado._id}, MINHA_CHAVE_JWT as Secret);
-
             return res.status(200).json({
                 nome : usuarioLogado.nome, 
                 email : usuarioLogado.email, 
                 token});
         }
-        
         return res.status(400).json({erro : 'Usuário ou senha inválida!'});
     }
     return res.status(405).json({erro : 'Método informado não é válido!'});
 }
-
 export default conectarMongoDB(endpointLogin);
