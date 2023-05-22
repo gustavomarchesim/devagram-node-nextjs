@@ -18,35 +18,47 @@ import nc from 'next-connect';
 const handler = nc()
     .use(upload.single('file'))
     .post( async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes> ) => {
-
-            const usuario = req.body as cadastroRequisicao;
+	
+      const usuario = req.body as cadastroRequisicao;
     
-            // Validação do campo 'nome'.
-            if(!usuario.nome || usuario.nome.length < 5) {
+        // Validação do campo 'nome'.
+      	if(!usuario.nome || usuario.nome.length < 5) {
                 return res.status(400).json({erro : 'Nome inválido!'});
-            };
-            // Validação do campo 'email'.
-            if(!usuario.email || usuario.email.length < 5 || !usuario.email.includes('@') || !usuario.email.includes('.')){
+        	};
+         // Validação do campo 'email'.
+   		if(!usuario.email || usuario.email.length < 5 || !usuario.email.includes('@') || !usuario.email.includes('.')){
                 return res.status(400).json({erro : 'Email inválido!'});
-            };
-            // Validação do campo 'senha'.
-            if(!usuario.senha || usuario.senha.length < 4) {
+         };
+      	// Validação do campo 'senha'.
+         if(!usuario.senha || usuario.senha.length < 4) {
                 return res.status(400).json({erro : 'Senha inválido!'}); 
-            };
-            // Verifica se o email já esta cadastrado
-            const usuariosDuplicidadeEmail = await usuarioModel.find({email : usuario.email});
-            if(usuariosDuplicidadeEmail && usuariosDuplicidadeEmail.length > 0){
+         };
+         // Verifica se o email já esta cadastrado
+         const usuariosDuplicidadeEmail = await usuarioModel.find({email : usuario.email});
+         if(usuariosDuplicidadeEmail && usuariosDuplicidadeEmail.length > 0){
                 return res.status(400).json({erro : 'O email cadastrado ja existe!' });
-            };
-    
-            const usuarioFinal = {
-                nome : usuario.nome,
-                email : usuario.email,
-                senha : md5(usuario.senha),
-            };
-            
-            await usuarioModel.create(usuarioFinal);
-            return res.status(200).json({msg : 'Usuário cadastrado com sucesso!'});
+         };      
+
+      	//Envia a imagem do Multer para o Cosmic
+         const image = await uploadImagemCosmic(req)
+
+         // Salva o usuário no banco de dados
+         const usuarioFinal = {
+            nome : usuario.nome,
+            email : usuario.email,
+            senha : md5(usuario.senha),
+            avatar : image?.media?.url
+         };
+
+         await usuarioModel.create(usuarioFinal);
+         return res.status(200).json({msg : 'Usuário cadastrado com sucesso!'});
 });
+
+//Configuração para que não seja feita a transformação do arquivo para JSON
+export const config = {
+	api : {
+		bodyParser : false
+	}
+};
 
 export default conectarMongoDB(handler);
