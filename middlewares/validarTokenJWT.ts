@@ -29,24 +29,26 @@ export const validarTokenJWT = (handler: NextApiHandler) =>
       const authorization = req.headers['authorization'];
       if (!authorization) {
         return res.status(401).json({ erro: 'Não foi possível validar o Token de acesso!' });
-      }
+      };
     
       // Extrai o token do cabeçalho
       const token = authorization?.substring(7);
       if (!token) {
         return res.status(401).json({ erro: 'Não foi possível validar o Token de acesso!' });
-      }
+      };
 
       // Verifica e decodifica o token JWT usando a chave JWT
       const decoded = jwt.verify(token, MINHA_CHAVE_JWT as Secret) as JwtPayload;
       if (!decoded) {
         return res.status(401).json({ erro: 'Não foi possível validar o Token de acesso!' });
-      }
+      };
 
       // Define o parâmetro de consulta userId com o valor do ID decodificado
       if (!req.query) {
         req.query = {};
-      }
+      };
+
+      //userId decodificada fica no req.query
       req.query.userId = decoded._id;
     }
 

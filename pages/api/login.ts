@@ -31,7 +31,7 @@ const endpointLogin = async ( req: NextApiRequest, res: NextApiResponse<resposta
         if(usuarioEncontrado && usuarioEncontrado.length > 0) {
             const usuarioLogado = usuarioEncontrado[0];
 
-        // Gera um token JWT com o ID do usuário
+            // Gera um token JWT com o ID do usuário
             const token = jwt.sign({_id : usuarioLogado._id}, MINHA_CHAVE_JWT as Secret);
             return res.status(200).json({
                 nome : usuarioLogado.nome, 

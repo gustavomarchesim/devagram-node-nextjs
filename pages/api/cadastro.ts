@@ -18,8 +18,9 @@ import nc from 'next-connect';
 const handler = nc()
     .use(upload.single('file'))
     .post( async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes> ) => {
-	
-      const usuario = req.body as cadastroRequisicao;
+
+      try {
+         const usuario = req.body as cadastroRequisicao;
     
         // Validação do campo 'nome'.
       	if(!usuario.nome || usuario.nome.length < 5) {
@@ -52,6 +53,11 @@ const handler = nc()
 
          await usuarioModel.create(usuarioFinal);
          return res.status(200).json({msg : 'Usuário cadastrado com sucesso!'});
+         
+      } catch(e) {
+         console.log(e);
+         return res.status(500).json({erro : 'Falha ao cadastrar usuário!'});
+      }
 });
 
 //Configuração para que não seja feita a transformação do arquivo para JSON
