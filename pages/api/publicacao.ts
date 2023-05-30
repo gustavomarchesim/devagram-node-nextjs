@@ -15,7 +15,7 @@ const handler = nc()
         try {
 
             //Busca na query da requisição o userID
-            const { userId } = req.query;
+            const { userId } = req?.query;
 
             //Procura o userID do usuario para poder validar
             const usuario  = await usuarioModel.findById(userId);
@@ -46,15 +46,16 @@ const handler = nc()
             //Faz upload da imagem
             const image = await uploadImagemCosmic(req);
             
-            const publicacao = {
+            const publicacoes = {
                 idUsuario : usuario._id,
                 descricao,
                 file : image.media.url,
                 data : new Date()
             }
 
-            await publicacaoModel.create(publicacao);
+            await publicacaoModel.create(publicacoes);
             return res.status(200).json ({msg : 'Publicação efetuada com sucesso!'});
+    
             
         } catch (e) {
             console.log(e)

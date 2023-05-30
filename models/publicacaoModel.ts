@@ -1,6 +1,6 @@
 import moongose, { Schema } from "mongoose";
 
-const publicacaoSchema = new Schema({
+const publicacoesSchema = new Schema({
     idUsuario : { type : String, required : true },
     descricao : { type : String, required : true },
     file : { type : String, required : true },
@@ -9,4 +9,4 @@ const publicacaoSchema = new Schema({
     curtidas : { type : Array, required : true, default : [] }
 });
 
-export const publicacaoModel = (moongose.models.publicacao || moongose.model('publicacao', publicacaoSchema));
+export const publicacaoModel = (moongose.models.publicacoes || moongose.model('publicacoes', publicacoesSchema));
