@@ -10,7 +10,7 @@ import { respostasPadroes } from "../types/respostasPadroes";
  */
 
 export const conectarMongoDB = (handler: NextApiHandler) =>
-  async (req: NextApiRequest, res: NextApiResponse<respostasPadroes>) => {
+  async (req: NextApiRequest, res: NextApiResponse<respostasPadroes | any[]>) => {
 
     // Verificar se a conexão com o banco de dados já foi estabelecida
     if (mongoose.connections[0].readyState) {

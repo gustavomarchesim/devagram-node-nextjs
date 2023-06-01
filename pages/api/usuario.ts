@@ -30,7 +30,7 @@ const handler = nc()
             if(file && file.originalname){
                 const image = await uploadImagemCosmic(req);
                 if(image && image.media && image.media.url){
-                    usuario.avatar =  image.media.url;
+                    usuario.avatar = image.media.url;
                 }
             };
 
