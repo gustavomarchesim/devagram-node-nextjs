@@ -20,7 +20,7 @@ const endpointLogin = async ( req: NextApiRequest, res: NextApiResponse<resposta
     // Verifica se a chave JWT está definida no ambiente
     const {MINHA_CHAVE_JWT} = process.env;
     if(!MINHA_CHAVE_JWT){
-        res.status(500).json({erro : 'ENV JWT não informada!'});
+      return res.status(500).json({InternalServerError : 'ENV JWT não informada!'});
     }
 
     if (req.method === 'POST'){
@@ -38,8 +38,8 @@ const endpointLogin = async ( req: NextApiRequest, res: NextApiResponse<resposta
                 email : usuarioLogado.email, 
                 token});
         }
-        return res.status(400).json({erro : 'Usuário ou senha inválida!'});
+        return res.status(400).json({BadRequest : 'Usuário ou senha inválida!'});
     }
-    return res.status(405).json({erro : 'Método informado não é válido!'});
+    return res.status(405).json({MethodNotAllowed : 'Método informado não é válido!'});
 }
 export default conectarMongoDB(endpointLogin);

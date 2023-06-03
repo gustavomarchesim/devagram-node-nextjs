@@ -18,7 +18,7 @@ const pesquisaEndpoint = async (req: NextApiRequest, res: NextApiResponse<respos
 
         if (!UsuarioID) {
           // Se o usuário não for encontrado
-          return res.status(400).json({ erro: 'Usuário não encontrado!' });
+          return res.status(400).json({ BadRequest : 'Usuário não encontrado!' });
           // Retorna uma resposta de erro com código 400 (BadRequest) informando que o usuário não foi encontrado
         }
         return res.status(200).json(UsuarioID);
@@ -29,7 +29,7 @@ const pesquisaEndpoint = async (req: NextApiRequest, res: NextApiResponse<respos
 
         if (!filtro || filtro.length < 2) {
           // Verifica se o filtro não existe ou tem menos de 2 caracteres
-          return res.status(400).json({ erro: 'A busca deve conter ao menos 2 caracteres!' });
+          return res.status(400).json({ BadRequest : 'A busca deve conter ao menos 2 caracteres!' });
           // Retorna uma resposta de erro com código 400 (BadRequest) informando que a busca deve conter pelo menos 2 caracteres
         }
 
@@ -52,15 +52,12 @@ const pesquisaEndpoint = async (req: NextApiRequest, res: NextApiResponse<respos
       }
     }
 
-    return res.status(405).json({ erro: 'Método informado não é válido' });
+    return res.status(405).json({ MethodNotAllowed: 'Método informado não é válido' });
     // Se o método da requisição não for GET, retorna uma resposta de erro com código 405 (MethodNotAllowed)
     // informando que o método informado não é válido
   } catch (e) {
     console.log(e);
-    // Exibe o erro no console
-
-    return res.status(500).json({ erro: 'Erro ao buscar usuário!' });
-    // Retorna uma resposta de erro com código 500 (InternalServerError) informando que ocorreu um erro ao buscar o usuário
+    return res.status(500).json({ InternalServerError: 'Erro ao buscar usuário!' });//<== Retorna uma resposta de erro com código 500 (InternalServerError) informando que ocorreu um erro ao buscar o usuário
   }
 };
 

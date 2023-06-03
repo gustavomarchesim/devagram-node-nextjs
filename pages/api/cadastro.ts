@@ -24,20 +24,20 @@ const handler = nc()
     
         // Validação do campo 'nome'.
       	if(!usuario.nome || usuario.nome.length < 5) {
-                return res.status(400).json({erro : 'Nome inválido!'});
+                return res.status(400).json({BadRequest : 'Nome inválido!'});
         	};
          // Validação do campo 'email'.
    		if(!usuario.email || usuario.email.length < 5 || !usuario.email.includes('@') || !usuario.email.includes('.')){
-                return res.status(400).json({erro : 'Email inválido!'});
+                return res.status(400).json({BadRequest : 'Email inválido!'});
          };
       	// Validação do campo 'senha'.
          if(!usuario.senha || usuario.senha.length < 4) {
-                return res.status(400).json({erro : 'Senha inválido!'}); 
+                return res.status(400).json({BadRequest : 'Senha inválido!'}); 
          };
          // Verifica se o email já esta cadastrado
          const usuariosDuplicidadeEmail = await usuarioModel.find({email : usuario.email});
          if(usuariosDuplicidadeEmail && usuariosDuplicidadeEmail.length > 0){
-                return res.status(400).json({erro : 'O email cadastrado ja existe!' });
+                return res.status(400).json({BadRequest : 'O email cadastrado ja existe!' });
          };      
 
       	//Envia a imagem do Multer para o Cosmic
@@ -52,11 +52,11 @@ const handler = nc()
          };
 
          await usuarioModel.create(usuarioFinal);
-         return res.status(200).json({msg : 'Usuário cadastrado com sucesso!'});
+         return res.status(200).json({OK : 'Usuário cadastrado com sucesso!'});
          
       } catch(e) {
          console.log(e);
-         return res.status(500).json({erro : 'Falha ao cadastrar usuário!'});
+         return res.status(500).json({InternalServerError : 'Falha ao cadastrar usuário!'});
       }
 });
 

@@ -12,9 +12,9 @@ const feedEndPoint = async ( req : NextApiRequest, res : NextApiResponse<respost
           const usuario = await usuarioModel.findById(req?.query?.userId);
           
           if (!usuario) {
-            return res.status(400).json({ erro :'Não foi possivel validar o usuário!' });
+            return res.status(400).json({ BadRequest :'Não foi possivel validar o usuário!' });
           };
-          
+
           const publicacoes = await publicacaoModel
           .find({idUsuario : usuario._id})
           .sort({data : -1});
@@ -24,7 +24,8 @@ const feedEndPoint = async ( req : NextApiRequest, res : NextApiResponse<respost
     }
   } catch (e) {
     console.log(e);
+    return res.status(500).json({ OK : 'Ocorreu um erro ao acessar o feed!' })
   }
-   return res.status(405).json({ erro :'Método inválido!'});
+   return res.status(405).json({ MethodNotAllowed :'Método inválido!'});
 }
 export default validarTokenJWT(conectarMongoDB(feedEndPoint));
