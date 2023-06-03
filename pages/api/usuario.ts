@@ -6,7 +6,6 @@ import { respostasPadroes } from "@/types/respostasPadroes";
 import { upload, uploadImagemCosmic } from "../../services/uploadImagensCosmic";
 import nc from "next-connect";
 
-
 const handler = nc()
     .use(upload.single('file'))
     .put(async ( req : any, res : NextApiResponse<respostasPadroes> | any) => {
@@ -34,8 +33,7 @@ const handler = nc()
                 }
             };
 
-            await usuarioModel
-                .findByIdAndUpdate({_id : usuario._id}, usuario);
+            await usuarioModel.findByIdAndUpdate({_id : usuario._id}, usuario);
 
             return res.status(200).json({ msg: 'Usuário atualizado com sucesso!' });
         } catch (e) {
