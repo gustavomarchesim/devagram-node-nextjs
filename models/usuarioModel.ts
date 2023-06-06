@@ -1,8 +1,4 @@
-import moongose, { Schema } from 'mongoose';
-
-/**
- * Definição do esquema do documento para a coleção "usuarios" no MongoDB.
- */
+import mongoose, { Schema } from 'mongoose';
 
 const usuarioSchema = new Schema({
     nome : {type : String, required : true},
@@ -15,4 +11,4 @@ const usuarioSchema = new Schema({
     
 });
 
-export const usuarioModel = (moongose.models.usuario || moongose.model('usuario', usuarioSchema));
+export const usuarioModel = (mongoose.models.usuario || mongoose.model('usuario', usuarioSchema));

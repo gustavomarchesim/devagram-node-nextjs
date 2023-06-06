@@ -1,4 +1,4 @@
-import moongose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const publicacoesSchema = new Schema({
     idUsuario : { type : String, required : true },
@@ -9,4 +9,4 @@ const publicacoesSchema = new Schema({
     curtidas : { type : Array, required : true, default : [] }
 });
 
-export const publicacaoModel = (moongose.models.publicacoes || moongose.model('publicacoes', publicacoesSchema));
+export const publicacaoModel = (mongoose.models.publicacoes || mongoose.model('publicacoes', publicacoesSchema));
