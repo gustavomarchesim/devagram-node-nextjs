@@ -3,6 +3,7 @@ import { conectarMongoDB } from "@/middlewares/conectarMongoDB";
 import { validarTokenJWT } from "@/middlewares/validarTokenJWT";
 import { usuarioModel } from "@/models/usuarioModel";
 import { respostasPadroes } from "@/types/respostasPadroes";
+import { politicaCORS } from "@/middlewares/politicaCORS";
 
 // Função de endpoint para pesquisa de usuários
 const pesquisaEndpoint = async (req: NextApiRequest, res: NextApiResponse<respostasPadroes | any[]>) => {
@@ -61,6 +62,6 @@ const pesquisaEndpoint = async (req: NextApiRequest, res: NextApiResponse<respos
   }
 };
 
-export default validarTokenJWT(conectarMongoDB(pesquisaEndpoint));
+export default politicaCORS(validarTokenJWT(conectarMongoDB(pesquisaEndpoint))) ;
 // Exporta a função pesquisaEndpoint como padrão e encadeia as funções de middleware validarTokenJWT e conectarMongoDB
 // Isso significa que os middlewares serão executados antes da função pesquisaEndpoint, adicionando funcionalidades adicionais

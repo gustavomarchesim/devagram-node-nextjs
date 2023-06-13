@@ -5,6 +5,7 @@ import { usuarioModel } from "@/models/usuarioModel";
 import { respostasPadroes } from "@/types/respostasPadroes";
 import { publicacaoModel } from "@/models/publicacaoModel";
 import { SeguidorModel } from "@/models/usuarioSeguidorModel";
+import { politicaCORS } from "@/middlewares/politicaCORS";
 
 const feedEndPoint = async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes | any> ) => {
     try {
@@ -60,4 +61,4 @@ const feedEndPoint = async ( req : NextApiRequest, res : NextApiResponse<respost
   }
    return res.status(405).json({ MethodNotAllowed :'Método inválido!'});
 }
-export default validarTokenJWT(conectarMongoDB(feedEndPoint));
+export default politicaCORS(validarTokenJWT(conectarMongoDB(feedEndPoint))) ;

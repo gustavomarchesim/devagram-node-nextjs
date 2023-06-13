@@ -6,6 +6,7 @@ import { conectarMongoDB } from '../../middlewares/conectarMongoDB';
 import { upload, uploadImagemCosmic } from '../../services/uploadImagensCosmic';
 import md5 from 'md5';
 import nc from 'next-connect';
+import { politicaCORS } from '@/middlewares/politicaCORS';
 
 /**
  * Endpoint para cadastrar um usuário.
@@ -67,4 +68,4 @@ export const config = {
 	}
 };
 
-export default conectarMongoDB(handler);
+export default politicaCORS(conectarMongoDB(handler));

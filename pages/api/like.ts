@@ -4,6 +4,7 @@ import { conectarMongoDB } from '@/middlewares/conectarMongoDB';
 import { respostasPadroes } from "@/types/respostasPadroes";
 import { publicacaoModel } from '@/models/publicacaoModel';
 import { usuarioModel } from '@/models/usuarioModel';
+import { politicaCORS } from '@/middlewares/politicaCORS';
 
 const curtidaEndpoint = async ( req : NextApiRequest, res : NextApiResponse<respostasPadroes> ) => {
     try {
@@ -42,4 +43,4 @@ const curtidaEndpoint = async ( req : NextApiRequest, res : NextApiResponse<resp
     }
 };
 
-export default validarTokenJWT(conectarMongoDB(curtidaEndpoint));
+export default politicaCORS(validarTokenJWT(conectarMongoDB(curtidaEndpoint))) ;
